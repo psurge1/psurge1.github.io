@@ -30,8 +30,8 @@
 
 ## Stage 5: Animation and frontend polish
 
-- Add initial diagram assembly animation
 - Add subtle drift and hover emphasis
+- Add initial diagram assembly animation
 - Add connector draw and scroll reveal effects
 - Implement animations with CSS, SVG, or Web Animations
 - Add `prefers-reduced-motion` support

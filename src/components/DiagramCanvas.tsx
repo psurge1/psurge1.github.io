@@ -4,11 +4,21 @@ import { EdgeLayer } from './EdgeLayer'
 import type { EdgeLine } from './EdgeLayer'
 import { DetailPanel } from './DetailPanel'
 import { UmlBox } from './UmlBox'
+import { DRIFT_DELAYS } from '../data/drift'
 import type { DiagramEdge, DiagramNode } from '../types/diagram'
 
 type DiagramCanvasProps = {
   nodes: DiagramNode[]
   edges: DiagramEdge[]
+}
+
+type DiagramRect = {
+  left: number
+  top: number
+  right: number
+  bottom: number
+  width: number
+  height: number
 }
 
 export function DiagramCanvas({ nodes, edges }: DiagramCanvasProps) {
@@ -26,33 +36,50 @@ export function DiagramCanvas({ nodes, edges }: DiagramCanvasProps) {
     }
 
     const stageRect = stage.getBoundingClientRect()
-    const rects = new Map(
-      nodes.map((node) => {
-        const element = document.getElementById(node.data.id)
-        return [node.data.id, element?.getBoundingClientRect()]
-      }),
-    )
+    const rectEntries: Array<[string, DiagramRect]> = []
+    nodes.forEach((node) => {
+      const element = document.getElementById(node.data.id)
+      if (!element) {
+        return
+      }
 
-    const center = (rect: DOMRect) => ({
-      x: rect.left + rect.width / 2 - stageRect.left,
-      y: rect.top + rect.height / 2 - stageRect.top,
+      const { offsetLeft, offsetTop, offsetWidth, offsetHeight } = element
+      const halfWidth = offsetWidth / 2
+      const halfHeight = offsetHeight / 2
+      rectEntries.push([
+        node.data.id,
+        {
+          left: offsetLeft - halfWidth,
+          top: offsetTop - halfHeight,
+          right: offsetLeft + halfWidth,
+          bottom: offsetTop + halfHeight,
+          width: offsetWidth,
+          height: offsetHeight,
+        },
+      ])
+    })
+    const rects = new Map(rectEntries)
+
+    const center = (rect: DiagramRect) => ({
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
     })
 
-    const anchor = (rect: DOMRect, target: { x: number; y: number }) => {
+    const anchor = (rect: DiagramRect, target: { x: number; y: number }) => {
       const point = center(rect)
       const horizontalDistance = target.x - point.x
       const verticalDistance = target.y - point.y
 
       if (Math.abs(horizontalDistance) > Math.abs(verticalDistance)) {
         return {
-          x: horizontalDistance > 0 ? rect.right - stageRect.left : rect.left - stageRect.left,
+          x: horizontalDistance > 0 ? rect.right : rect.left,
           y: point.y,
         }
       }
 
       return {
         x: point.x,
-        y: verticalDistance > 0 ? rect.bottom - stageRect.top : rect.top - stageRect.top,
+        y: verticalDistance > 0 ? rect.bottom : rect.top,
       }
     }
 
@@ -70,6 +97,8 @@ export function DiagramCanvas({ nodes, edges }: DiagramCanvasProps) {
       return [
         {
           id: edge.id,
+          fromNodeId: edge.from,
+          toNodeId: edge.to,
           from: anchor(fromRect, toCenter),
           to: anchor(toRect, fromCenter),
           route: edge.route ?? 'vertical',
@@ -176,6 +205,7 @@ export function DiagramCanvas({ nodes, edges }: DiagramCanvasProps) {
               {
                 '--node-x': `${node.position.x}%`,
                 '--node-y': `${node.position.y}%`,
+                '--drift-delay': `${DRIFT_DELAYS[node.data.id] ?? 0}s`,
               } as CSSProperties
             }
           />

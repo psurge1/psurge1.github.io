@@ -202,6 +202,28 @@ a {
   left: var(--node-x);
   min-width: 0;
   transform: translate(-50%, -50%);
+  animation: uml-drift 8s linear infinite;
+  animation-delay: var(--drift-delay, 0s);
+  will-change: translate;
+}
+
+@keyframes uml-drift {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  25% {
+    translate: 4px -4px;
+  }
+
+  50% {
+    translate: 0 -8px;
+  }
+
+  75% {
+    translate: -4px -4px;
+  }
 }
 
 .diagram-node--profile {
@@ -240,6 +262,11 @@ a {
 .uml-box--interactive:hover,
 .uml-box--interactive:focus-visible {
   transform: translate(-50%, calc(-50% - 2px));
+  animation-play-state: paused;
+}
+
+.uml-box--interactive.is-selected {
+  animation-play-state: paused;
 }
 
 .uml-box--interactive:focus-visible {
@@ -489,5 +516,11 @@ a {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+
+  .diagram-node {
+    animation: none !important;
+    translate: none;
+    will-change: auto;
   }
 }

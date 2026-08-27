@@ -15,7 +15,7 @@ function App() {
         </div>
         <div className="header-meta">
           <span className="status-dot" aria-hidden="true" />
-          <span className="status-label">Stage 04 / content interactions</span>
+          <span className="status-label">Stage 05 / subtle drift</span>
         </div>
       </header>
 
