@@ -386,16 +386,18 @@ a {
 }
 
 .detail-panel {
-  position: absolute;
-  top: 1rem;
-  right: 0;
-  z-index: 4;
-  width: min(21rem, 30vw);
-  max-height: calc(100% - 2rem);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  width: 75vw;
+  height: calc(100vh - 2rem);
+  max-height: calc(100vh - 2rem);
   overflow: auto;
   border: 1px solid var(--line-strong);
   background: var(--paper);
   padding: 1rem 1.1rem 1.2rem;
+  transform: translate(-50%, -50%);
 }
 
 .detail-panel__header {
