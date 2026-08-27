@@ -1,9 +1,10 @@
 import { portfolioData } from './data/portfolio'
-import { UmlBox } from './components/UmlBox'
+import { diagramEdges, diagramNodes } from './data/diagram'
+import { DiagramCanvas } from './components/DiagramCanvas'
 import './styles/global.css'
 
 function App() {
-  const { profile, socials } = portfolioData
+  const { socials } = portfolioData
 
   return (
     <main className="app-shell">
@@ -14,18 +15,12 @@ function App() {
         </div>
         <div className="header-meta">
           <span className="status-dot" aria-hidden="true" />
-          <span className="status-label">Stage 02 / visual foundation</span>
+          <span className="status-label">Stage 03 / diagram structure</span>
         </div>
       </header>
 
       <section className="diagram-shell" aria-label="Portfolio diagram">
-        <div className="diagram-stage">
-          <UmlBox data={profile} headingLevel="h1" className="profile-node" />
-
-          <div className="diagram-placeholder" aria-hidden="true">
-            <span>connected nodes will appear in stage 03</span>
-          </div>
-        </div>
+        <DiagramCanvas nodes={diagramNodes} edges={diagramEdges} />
       </section>
 
       <footer className="site-footer">

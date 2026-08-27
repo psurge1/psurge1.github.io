@@ -36,7 +36,8 @@ export type PortfolioData = {
 // Placeholder content for the frontend scaffold. This will be replaced by Supabase data later.
 export const portfolioData: PortfolioData = {
   profile: {
-    id: '00',
+    id: 'profile',
+    index: '00',
     stereotype: 'profile',
     eyebrow: 'Root profile node',
     title: 'Your Name',

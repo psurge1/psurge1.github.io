@@ -66,7 +66,6 @@ a {
 }
 
 .header-code,
-.diagram-placeholder,
 .node-type,
 .node-index,
 .node-footer,
@@ -127,10 +126,10 @@ a {
 .diagram-shell {
   position: relative;
   display: flex;
-  min-height: 70vh;
+  min-height: 0;
   flex-direction: column;
   isolation: isolate;
-  padding: 2.5rem 0 3rem;
+  padding: 1.5rem 0 2rem;
 }
 
 .diagram-shell::before,
@@ -160,22 +159,68 @@ a {
 
 .diagram-stage {
   position: relative;
-  display: grid;
-  min-height: 55vh;
-  place-items: center;
-  flex: 1;
+  width: min(74vw, 78rem);
+  height: min(72vh, 48rem);
+  min-height: 38rem;
+  margin: 0 auto;
+  flex: 0 0 auto;
+}
+
+.edge-layer,
+.diagram-nodes {
+  position: absolute;
+  inset: 0;
+}
+
+.edge-layer {
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.diagram-nodes {
+  z-index: 1;
+}
+
+.diagram-edge {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.diagram-arrowhead {
+  fill: var(--line-strong);
+  stroke: none;
+}
+
+.diagram-node {
+  position: absolute;
+  z-index: 1;
+  top: var(--node-y);
+  left: var(--node-x);
+  min-width: 0;
+  transform: translate(-50%, -50%);
+}
+
+.diagram-node--profile {
+  width: min(100%, clamp(18rem, 28vw, 28rem));
+}
+
+.diagram-node--education,
+.diagram-node--experience,
+.diagram-node--projects,
+.diagram-node--resume {
+  width: clamp(12rem, 16.5vw, 16rem);
+  min-height: clamp(8rem, 12vh, 10rem);
 }
 
 .uml-box {
-  position: relative;
-  z-index: 1;
-  border: 1px solid var(--line-strong);
-  background: rgb(240 225 193 / 42%);
-  box-shadow: 0.5rem 0.5rem 0 var(--shadow);
-}
-
-.profile-node {
-  width: min(100%, 38rem);
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: rgb(240 225 193 / 24%);
 }
 
 .uml-box--active {
@@ -187,7 +232,7 @@ a {
 }
 
 .uml-box--featured {
-  box-shadow: 0.5rem 0.5rem 0 var(--accent-soft);
+  border-color: var(--line-strong);
 }
 
 .node-header,
@@ -195,8 +240,10 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 0.8rem 1.1rem;
+  gap: 0.6rem;
+  min-width: 0;
+  flex-wrap: wrap;
+  padding: 0.55rem 0.75rem;
 }
 
 .node-header {
@@ -206,61 +253,93 @@ a {
 .node-type,
 .node-footer {
   color: var(--ink-muted);
-  font-size: 0.7rem;
+  font-size: 0.62rem;
   letter-spacing: 0.06em;
+  overflow-wrap: anywhere;
   text-transform: uppercase;
 }
 
+.node-footer a {
+  color: var(--accent);
+  overflow-wrap: anywhere;
+  text-underline-offset: 0.25em;
+}
+
 .uml-box__body {
-  padding: 2.5rem clamp(1.5rem, 5vw, 4rem) 3rem;
+  padding: 0.95rem 1rem 1.05rem;
 }
 
 .uml-box__title {
-  max-width: 10ch;
-  margin: 0.75rem 0 0.5rem;
-  font-size: clamp(3.5rem, 8vw, 7.5rem);
+  max-width: 100%;
+  margin: 0.4rem 0 0.3rem;
+  font-size: 1.2rem;
   font-weight: 650;
-  letter-spacing: -0.07em;
-  line-height: 0.9;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  overflow-wrap: anywhere;
 }
 
 .uml-box__subtitle {
   margin: 0;
-  font-size: clamp(1.2rem, 2vw, 1.75rem);
+  color: var(--ink-muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .uml-box__section {
-  margin-top: 1.75rem;
+  margin-top: 0.85rem;
 }
 
 .uml-box__section-label {
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.35rem;
   color: var(--ink-muted);
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.62rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .uml-box__section-copy {
-  max-width: 35rem;
+  max-width: 100%;
   margin: 0;
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .uml-box__section-copy p {
   margin: 0;
 }
 
-.diagram-placeholder {
-  position: absolute;
-  right: 0;
-  bottom: 1.5rem;
-  color: var(--ink-faint);
-  font-size: 0.65rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+.diagram-node--profile .uml-box__body {
+  padding: 2rem clamp(1.5rem, 4vw, 2.75rem) 2.2rem;
+}
+
+.diagram-node--profile .uml-box__title {
+  max-width: 10ch;
+  margin: 0.65rem 0 0.45rem;
+  font-size: clamp(2.75rem, 4.5vw, 5.25rem);
+  letter-spacing: -0.07em;
+  line-height: 0.9;
+}
+
+.diagram-node--profile .uml-box__subtitle {
+  font-size: clamp(1rem, 1.6vw, 1.35rem);
+}
+
+.diagram-node--profile .uml-box__section {
+  margin-top: 1.4rem;
+}
+
+.diagram-node--profile .uml-box__section-copy {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.diagram-node--profile.uml-box {
+  background: rgb(240 225 193 / 36%);
+  border-color: var(--line-strong);
 }
 
 @media (prefers-reduced-motion: reduce) {

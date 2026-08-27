@@ -5,8 +5,14 @@ export type UmlBoxSection = {
   lines: string[]
 }
 
+export type UmlBoxAction = {
+  label: string
+  url: string
+}
+
 export type UmlBoxData = {
   id: string
+  index?: string
   stereotype?: string
   eyebrow?: string
   title: string
@@ -14,4 +20,5 @@ export type UmlBoxData = {
   variant?: UmlBoxVariant
   sections?: UmlBoxSection[]
   footer?: string[]
+  actions?: UmlBoxAction[]
 }
