@@ -4,12 +4,13 @@ import { EdgeLayer } from './EdgeLayer'
 import type { EdgeLine } from './EdgeLayer'
 import { DetailPanel } from './DetailPanel'
 import { UmlBox } from './UmlBox'
-import { DRIFT_DELAYS } from '../data/drift'
+import { DRIFT_DELAYS, DRIFT_PATTERNS } from '../data/drift'
 import type { DiagramEdge, DiagramNode } from '../types/diagram'
 
 type DiagramCanvasProps = {
   nodes: DiagramNode[]
   edges: DiagramEdge[]
+  driftScale: number
 }
 
 type DiagramRect = {
@@ -21,7 +22,23 @@ type DiagramRect = {
   height: number
 }
 
-export function DiagramCanvas({ nodes, edges }: DiagramCanvasProps) {
+function getNodeStyle(node: DiagramNode, driftScale: number): CSSProperties {
+  const pattern = DRIFT_PATTERNS[node.data.id] ?? DRIFT_PATTERNS.profile
+
+  return {
+    '--node-x': `${node.position.x}%`,
+    '--node-y': `${node.position.y}%`,
+    '--drift-delay': `${DRIFT_DELAYS[node.data.id] ?? 0}s`,
+    '--drift-x-first': `${pattern.first[0] * driftScale}px`,
+    '--drift-y-first': `${pattern.first[1] * driftScale}px`,
+    '--drift-x-second': `${pattern.second[0] * driftScale}px`,
+    '--drift-y-second': `${pattern.second[1] * driftScale}px`,
+    '--drift-x-third': `${pattern.third[0] * driftScale}px`,
+    '--drift-y-third': `${pattern.third[1] * driftScale}px`,
+  } as CSSProperties
+}
+
+export function DiagramCanvas({ nodes, edges, driftScale }: DiagramCanvasProps) {
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 })
   const [edgeLines, setEdgeLines] = useState<EdgeLine[]>([])
   const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null)
@@ -201,13 +218,7 @@ export function DiagramCanvas({ nodes, edges }: DiagramCanvasProps) {
             onMouseEnter={() => setHoveredNodeId(node.data.id)}
             onMouseLeave={() => setHoveredNodeId(null)}
             onKeyDown={(event) => handleNodeKeyDown(event, node.data.id)}
-            style={
-              {
-                '--node-x': `${node.position.x}%`,
-                '--node-y': `${node.position.y}%`,
-                '--drift-delay': `${DRIFT_DELAYS[node.data.id] ?? 0}s`,
-              } as CSSProperties
-            }
+            style={getNodeStyle(node, driftScale)}
           />
         ))}
       </div>
