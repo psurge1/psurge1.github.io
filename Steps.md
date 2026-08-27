@@ -27,7 +27,6 @@
 - Add hover and keyboard focus states
 - Highlight connected nodes and edges
 - Add expandable details or a detail panel
-- Add links to GitHub, live projects, résumé, and social profiles
 
 ## Stage 5: Animation and frontend polish
 
@@ -41,6 +40,7 @@
 
 ## Stage 6: Supabase backend
 
+- Add links to GitHub, live projects, résumé, and social profiles
 - Create the Supabase project
 - Add tables for profile, education, experience, projects, technologies, current work, and social links
 - Add relationships between projects, experiences, and technologies
