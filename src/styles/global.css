@@ -159,9 +159,9 @@ a {
 
 .diagram-stage {
   position: relative;
-  width: min(74vw, 78rem);
-  height: min(72vh, 48rem);
-  min-height: 38rem;
+  width: min(86vw, 90rem);
+  height: min(78vh, 52rem);
+  min-height: 40rem;
   margin: 0 auto;
   flex: 0 0 auto;
 }
@@ -205,7 +205,8 @@ a {
 }
 
 .diagram-node--profile {
-  width: min(100%, clamp(18rem, 28vw, 28rem));
+  width: min(100%, clamp(19rem, 30vw, 30rem));
+  min-height: clamp(24rem, 42vh, 32rem);
 }
 
 .diagram-node--education,
@@ -213,8 +214,15 @@ a {
 .diagram-node--projects,
 .diagram-node--now,
 .diagram-node--resume {
-  width: clamp(12rem, 16.5vw, 16rem);
-  min-height: clamp(8rem, 12vh, 10rem);
+  width: clamp(13rem, 18vw, 17.5rem);
+  min-height: clamp(12.75rem, 19.5vh, 15.75rem);
+}
+
+.diagram-node--education,
+.diagram-node--projects,
+.diagram-node--now {
+  width: clamp(9.75rem, 13.5vw, 13.125rem);
+  min-height: clamp(9.5625rem, 14.625vh, 11.8125rem);
 }
 
 .uml-box {

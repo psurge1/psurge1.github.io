@@ -27,7 +27,7 @@ export const diagramNodes: DiagramNode[] = [
       },
     },
     className: 'diagram-node--education',
-    position: { x: 17, y: 24 },
+    position: { x: 83, y: 24 },
   },
   {
     data: {
@@ -49,7 +49,7 @@ export const diagramNodes: DiagramNode[] = [
       },
     },
     className: 'diagram-node--experience',
-    position: { x: 83, y: 24 },
+    position: { x: 17, y: 24 },
   },
   {
     data: {
