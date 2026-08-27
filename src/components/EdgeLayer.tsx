@@ -15,9 +15,10 @@ type EdgeLayerProps = {
   lines: EdgeLine[]
   width: number
   height: number
+  highlightedEdgeIds?: ReadonlySet<string> | null
 }
 
-export function EdgeLayer({ lines, width, height }: EdgeLayerProps) {
+export function EdgeLayer({ lines, width, height, highlightedEdgeIds = null }: EdgeLayerProps) {
   return (
     <svg
       className="edge-layer"
@@ -49,7 +50,21 @@ export function EdgeLayer({ lines, width, height }: EdgeLayerProps) {
             : `M ${line.from.x} ${line.from.y} V ${midpoint} H ${line.to.x} V ${line.to.y}`
 
         return (
-          <path key={line.id} className="diagram-edge" d={path} markerEnd="url(#diagram-arrow)" />
+          <path
+            key={line.id}
+            className={[
+              'diagram-edge',
+              highlightedEdgeIds && highlightedEdgeIds.has(line.id)
+                ? 'is-highlighted'
+                : highlightedEdgeIds
+                  ? 'is-dimmed'
+                  : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+            d={path}
+            markerEnd="url(#diagram-arrow)"
+          />
         )
       })}
     </svg>

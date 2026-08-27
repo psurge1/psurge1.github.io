@@ -19,6 +19,12 @@ export const diagramNodes: DiagramNode[] = [
       title: education?.institution ?? 'Education',
       subtitle: education?.degree ?? 'Program to be added',
       sections: [{ lines: [education?.dates ?? 'Dates to be added'] }],
+      details: {
+        sections: [
+          { label: 'program', lines: [education?.degree ?? 'Program to be added'] },
+          { label: 'dates', lines: [education?.dates ?? 'Dates to be added'] },
+        ],
+      },
     },
     className: 'diagram-node--education',
     position: { x: 17, y: 24 },
@@ -35,6 +41,12 @@ export const diagramNodes: DiagramNode[] = [
           lines: [experience?.role ?? 'Software Engineering', `${portfolioData.experience.length} positions`],
         },
       ],
+      details: {
+        sections: portfolioData.experience.map((item) => ({
+          label: item.company,
+          lines: [item.role, item.dates, item.summary],
+        })),
+      },
     },
     className: 'diagram-node--experience',
     position: { x: 83, y: 24 },
@@ -47,6 +59,12 @@ export const diagramNodes: DiagramNode[] = [
       title: 'Projects',
       subtitle: 'Selected projects',
       sections: [{ lines: ['3 repositories · synced with GitHub'] }],
+      details: {
+        sections: portfolioData.projects.map((item) => ({
+          label: item.name,
+          lines: [item.description, `stack: ${item.technologies.join(', ')}`],
+        })),
+      },
     },
     className: 'diagram-node--projects',
     position: { x: 83, y: 50 },
@@ -60,6 +78,12 @@ export const diagramNodes: DiagramNode[] = [
       subtitle: 'Distributed ML · GPU computing · ...',
       sections: [{ lines: ['3 active threads'] }],
       variant: 'active',
+      details: {
+        sections: portfolioData.currentWork.map((item) => ({
+          label: item.status,
+          lines: [item.title, item.focus],
+        })),
+      },
     },
     className: 'diagram-node--now',
     position: { x: 83, y: 76 },
@@ -72,6 +96,10 @@ export const diagramNodes: DiagramNode[] = [
       title: 'Résumé',
       subtitle: 'PDF',
       actions: [{ label: 'open résumé', url: portfolioData.resumeUrl }],
+      details: {
+        sections: [{ lines: ['Experience and selected work'] }],
+        actions: [{ label: 'Open résumé', url: portfolioData.resumeUrl }],
+      },
     },
     className: 'diagram-node--resume',
     position: { x: 17, y: 76 },

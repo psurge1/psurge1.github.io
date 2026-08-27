@@ -10,6 +10,11 @@ export type UmlBoxAction = {
   url: string
 }
 
+export type UmlBoxDetails = {
+  sections: UmlBoxSection[]
+  actions?: UmlBoxAction[]
+}
+
 export type UmlBoxData = {
   id: string
   index?: string
@@ -21,4 +26,5 @@ export type UmlBoxData = {
   sections?: UmlBoxSection[]
   footer?: string[]
   actions?: UmlBoxAction[]
+  details?: UmlBoxDetails
 }
