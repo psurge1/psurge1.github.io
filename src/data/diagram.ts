@@ -3,7 +3,6 @@ import type { DiagramEdge, DiagramNode } from '../types/diagram'
 
 const education = portfolioData.education[0]
 const experience = portfolioData.experience[0]
-const project = portfolioData.projects[0]
 
 export const diagramNodes: DiagramNode[] = [
   {
@@ -19,6 +18,7 @@ export const diagramNodes: DiagramNode[] = [
       stereotype: 'education',
       title: education?.institution ?? 'Education',
       subtitle: education?.degree ?? 'Program to be added',
+      sections: [{ lines: [education?.dates ?? 'Dates to be added'] }],
     },
     className: 'diagram-node--education',
     position: { x: 17, y: 24 },
@@ -29,7 +29,12 @@ export const diagramNodes: DiagramNode[] = [
       index: '02',
       stereotype: 'experience',
       title: 'Experience',
-      subtitle: experience?.company ?? 'Companies to be added',
+      subtitle: portfolioData.experience.map((item) => item.company).join(' · '),
+      sections: [
+        {
+          lines: [experience?.role ?? 'Software Engineering', `${portfolioData.experience.length} positions`],
+        },
+      ],
     },
     className: 'diagram-node--experience',
     position: { x: 83, y: 24 },
@@ -40,19 +45,32 @@ export const diagramNodes: DiagramNode[] = [
       index: '03',
       stereotype: 'projects',
       title: 'Projects',
-      subtitle: `${portfolioData.projects.length} repositories`,
-      actions: project ? [{ label: 'open GitHub', url: project.githubUrl }] : [],
+      subtitle: 'Selected projects',
+      sections: [{ lines: ['3 repositories · synced with GitHub'] }],
     },
     className: 'diagram-node--projects',
+    position: { x: 83, y: 50 },
+  },
+  {
+    data: {
+      id: 'now',
+      index: '04',
+      stereotype: 'active',
+      title: 'Currently',
+      subtitle: 'Distributed ML · GPU computing · ...',
+      sections: [{ lines: ['3 active threads'] }],
+      variant: 'active',
+    },
+    className: 'diagram-node--now',
     position: { x: 83, y: 76 },
   },
   {
     data: {
       id: 'resume',
-      index: '04',
+      index: '05',
       stereotype: 'document',
       title: 'Résumé',
-      subtitle: 'Downloadable PDF',
+      subtitle: 'PDF',
       actions: [{ label: 'open résumé', url: portfolioData.resumeUrl }],
     },
     className: 'diagram-node--resume',
@@ -61,8 +79,9 @@ export const diagramNodes: DiagramNode[] = [
 ]
 
 export const diagramEdges: DiagramEdge[] = [
-  { id: 'profile-resume', from: 'profile', to: 'resume', route: 'horizontal' },
   { id: 'profile-education', from: 'profile', to: 'education', route: 'horizontal' },
   { id: 'profile-experience', from: 'profile', to: 'experience', route: 'horizontal' },
   { id: 'profile-projects', from: 'profile', to: 'projects', route: 'horizontal' },
+  { id: 'profile-resume', from: 'profile', to: 'resume', route: 'horizontal' },
+  { id: 'projects-now', from: 'projects', to: 'now', route: 'vertical' },
 ]

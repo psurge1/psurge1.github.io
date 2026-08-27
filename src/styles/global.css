@@ -211,6 +211,7 @@ a {
 .diagram-node--education,
 .diagram-node--experience,
 .diagram-node--projects,
+.diagram-node--now,
 .diagram-node--resume {
   width: clamp(12rem, 16.5vw, 16rem);
   min-height: clamp(8rem, 12vh, 10rem);

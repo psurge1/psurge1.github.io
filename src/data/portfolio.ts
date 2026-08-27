@@ -39,29 +39,33 @@ export const portfolioData: PortfolioData = {
     id: 'profile',
     index: '00',
     stereotype: 'profile',
-    eyebrow: 'Root profile node',
     title: 'Your Name',
     subtitle: 'Software Engineer',
     sections: [
       {
-        lines: ['A short introduction about your work, interests, and the systems you build.'],
+        lines: ['Distributed systems · AI infrastructure'],
       },
     ],
-    footer: ['identity', 'public / initializing'],
   },
   education: [
     {
-      institution: 'University Name',
-      degree: 'Degree or Program',
-      dates: '20XX–20XX',
+      institution: 'UT Austin',
+      degree: 'Electrical & Computer Engineering',
+      dates: '2023–2027',
     },
   ],
   experience: [
     {
-      role: 'Software Engineer',
-      company: 'Company Name',
-      dates: '20XX–Present',
-      summary: 'A concise accomplishment or responsibility goes here.',
+      role: 'Software Engineering',
+      company: 'HashiCorp',
+      dates: 'Position 1',
+      summary: 'Experience details will be added later.',
+    },
+    {
+      role: 'Software Engineering',
+      company: 'Vectra AI',
+      dates: 'Position 2',
+      summary: 'Experience details will be added later.',
     },
   ],
   projects: [
