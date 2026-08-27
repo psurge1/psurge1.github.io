@@ -7,6 +7,15 @@ export const DRIFT_DELAYS: Record<string, number> = {
   resume: -3.3,
 }
 
+export const ASSEMBLY_DELAYS: Record<string, number> = {
+  profile: 80,
+  education: 220,
+  experience: 260,
+  projects: 360,
+  now: 460,
+  resume: 400,
+}
+
 export type DriftPattern = {
   first: [number, number]
   second: [number, number]

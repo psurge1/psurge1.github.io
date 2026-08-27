@@ -18,7 +18,7 @@ function App() {
         </div>
         <div className="header-meta">
           <span className="status-dot" aria-hidden="true" />
-          <span className="status-label">Stage 05 / subtle drift</span>
+          <span className="status-label">Stage 05 / assembly + reveal</span>
         </div>
       </header>
 

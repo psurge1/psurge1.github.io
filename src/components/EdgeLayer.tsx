@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef } from 'react'
+import type { CSSProperties } from 'react'
 
 export type EdgeLine = {
   id: string
@@ -135,7 +136,7 @@ export function EdgeLayer({ lines, width, height, highlightedEdgeIds = null }: E
           <path d="M 0 0 L 8 4 L 0 8" className="diagram-arrowhead" />
         </marker>
       </defs>
-      {lines.map((line) => {
+      {lines.map((line, index) => {
         const path = createPath(line.from, line.to, line.route)
 
         return (
@@ -148,6 +149,8 @@ export function EdgeLayer({ lines, width, height, highlightedEdgeIds = null }: E
                 pathRefs.current.delete(line.id)
               }
             }}
+            pathLength={1}
+            style={{ '--edge-reveal-delay': `${220 + index * 90}ms` } as CSSProperties}
             className={[
               'diagram-edge',
               highlightedEdgeIds && highlightedEdgeIds.has(line.id)

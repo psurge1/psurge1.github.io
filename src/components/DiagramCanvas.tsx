@@ -1,10 +1,10 @@
-import { useCallback, useLayoutEffect, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { CSSProperties, KeyboardEvent } from 'react'
 import { EdgeLayer } from './EdgeLayer'
 import type { EdgeLine } from './EdgeLayer'
 import { DetailPanel } from './DetailPanel'
 import { UmlBox } from './UmlBox'
-import { DRIFT_DELAYS, DRIFT_PATTERNS } from '../data/drift'
+import { ASSEMBLY_DELAYS, DRIFT_DELAYS, DRIFT_PATTERNS } from '../data/drift'
 import type { DiagramEdge, DiagramNode } from '../types/diagram'
 
 type DiagramCanvasProps = {
@@ -35,6 +35,7 @@ function getNodeStyle(node: DiagramNode, driftScale: number): CSSProperties {
     '--drift-y-second': `${pattern.second[1] * driftScale}px`,
     '--drift-x-third': `${pattern.third[0] * driftScale}px`,
     '--drift-y-third': `${pattern.third[1] * driftScale}px`,
+    '--assembly-delay': `${ASSEMBLY_DELAYS[node.data.id] ?? 0}ms`,
   } as CSSProperties
 }
 
@@ -44,6 +45,35 @@ export function DiagramCanvas({ nodes, edges, driftScale }: DiagramCanvasProps) 
   const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null)
   const [focusedNodeId, setFocusedNodeId] = useState<string | null>(null)
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null)
+  const [isRevealed, setIsRevealed] = useState(false)
+  const stageRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const stage = stageRef.current
+
+    if (!stage) {
+      return
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      setIsRevealed(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsRevealed(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.15 },
+    )
+
+    observer.observe(stage)
+
+    return () => observer.disconnect()
+  }, [])
 
   const measureDiagram = useCallback(() => {
     const stage = document.querySelector<HTMLElement>('.diagram-stage')
@@ -184,7 +214,7 @@ export function DiagramCanvas({ nodes, edges, driftScale }: DiagramCanvasProps) 
   }
 
   return (
-    <div className="diagram-stage">
+    <div ref={stageRef} className={`diagram-stage${isRevealed ? ' is-revealed' : ''}`}>
       <EdgeLayer
         lines={edgeLines}
         width={canvasSize.width}
