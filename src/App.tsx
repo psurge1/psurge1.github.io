@@ -1,4 +1,5 @@
 import { portfolioData } from './data/portfolio'
+import { UmlBox } from './components/UmlBox'
 import './styles/global.css'
 
 function App() {
@@ -17,26 +18,9 @@ function App() {
         </div>
       </header>
 
-      <section className="diagram-shell" aria-labelledby="page-title">
+      <section className="diagram-shell" aria-label="Portfolio diagram">
         <div className="diagram-stage">
-          <article className="profile-node" aria-label="Profile node">
-            <header className="node-header">
-              <span className="node-type">&lt;&lt; profile &gt;&gt;</span>
-              <span className="node-index">00</span>
-            </header>
-
-            <div className="profile-content">
-              <p className="eyebrow">Root profile node</p>
-              <h1 id="page-title">{profile.name}</h1>
-              <p className="profile-title">{profile.title}</p>
-              <p className="profile-bio">{profile.bio}</p>
-            </div>
-
-            <footer className="node-footer">
-              <span>identity</span>
-              <span>public / initializing</span>
-            </footer>
-          </article>
+          <UmlBox data={profile} headingLevel="h1" className="profile-node" />
 
           <div className="diagram-placeholder" aria-hidden="true">
             <span>connected nodes will appear in stage 03</span>

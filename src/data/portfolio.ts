@@ -1,14 +1,12 @@
+import type { UmlBoxData } from '../types/uml'
+
 export type SocialLink = {
   label: string
   url: string
 }
 
 export type PortfolioData = {
-  profile: {
-    name: string
-    title: string
-    bio: string
-  }
+  profile: UmlBoxData
   education: Array<{
     institution: string
     degree: string
@@ -35,12 +33,20 @@ export type PortfolioData = {
   socials: SocialLink[]
 }
 
-// Placeholder content for Stage 1. This will be replaced by Supabase data later.
+// Placeholder content for the frontend scaffold. This will be replaced by Supabase data later.
 export const portfolioData: PortfolioData = {
   profile: {
-    name: 'Your Name',
-    title: 'Software Engineer',
-    bio: 'A short introduction about your work, interests, and the systems you build.',
+    id: '00',
+    stereotype: 'profile',
+    eyebrow: 'Root profile node',
+    title: 'Your Name',
+    subtitle: 'Software Engineer',
+    sections: [
+      {
+        lines: ['A short introduction about your work, interests, and the systems you build.'],
+      },
+    ],
+    footer: ['identity', 'public / initializing'],
   },
   education: [
     {

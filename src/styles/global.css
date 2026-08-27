@@ -166,13 +166,28 @@ a {
   flex: 1;
 }
 
-.profile-node {
+.uml-box {
   position: relative;
   z-index: 1;
-  width: min(100%, 38rem);
   border: 1px solid var(--line-strong);
   background: rgb(240 225 193 / 42%);
   box-shadow: 0.5rem 0.5rem 0 var(--shadow);
+}
+
+.profile-node {
+  width: min(100%, 38rem);
+}
+
+.uml-box--active {
+  border-color: var(--accent);
+}
+
+.uml-box--active .node-type {
+  color: var(--accent);
+}
+
+.uml-box--featured {
+  box-shadow: 0.5rem 0.5rem 0 var(--accent-soft);
 }
 
 .node-header,
@@ -196,11 +211,11 @@ a {
   text-transform: uppercase;
 }
 
-.profile-content {
+.uml-box__body {
   padding: 2.5rem clamp(1.5rem, 5vw, 4rem) 3rem;
 }
 
-h1 {
+.uml-box__title {
   max-width: 10ch;
   margin: 0.75rem 0 0.5rem;
   font-size: clamp(3.5rem, 8vw, 7.5rem);
@@ -209,16 +224,33 @@ h1 {
   line-height: 0.9;
 }
 
-.profile-title {
+.uml-box__subtitle {
   margin: 0;
   font-size: clamp(1.2rem, 2vw, 1.75rem);
 }
 
-.profile-bio {
+.uml-box__section {
+  margin-top: 1.75rem;
+}
+
+.uml-box__section-label {
+  margin: 0 0 0.5rem;
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.uml-box__section-copy {
   max-width: 35rem;
-  margin: 1.75rem 0 0;
+  margin: 0;
   font-size: 1.1rem;
   line-height: 1.6;
+}
+
+.uml-box__section-copy p {
+  margin: 0;
 }
 
 .diagram-placeholder {
