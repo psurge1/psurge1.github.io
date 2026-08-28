@@ -38,14 +38,14 @@
 - Verify smooth 60 FPS performance on lower-end hardware
 - Test keyboard navigation and desktop usability
 
-## Stage 6: Supabase backend
+## Stage 6: Supabase basic schema
 
-- Add links to GitHub, live projects, résumé, and social profiles
 - Create the Supabase project
-- Add tables for profile, education, experience, projects, technologies, current work, and social links
-- Add relationships between projects, experiences, and technologies
-- Configure published-content access and Row Level Security
-- Add résumé or image storage only if needed
+- Define a UML content table based on `UmlBoxData`
+- Define a social links table for the footer
+- Add the common UML fields as columns
+- Store preview sections, actions, and popup details as flexible JSON data
+- Configure public read access and Row Level Security
 
 ## Stage 7: Runtime content integration
 
@@ -54,7 +54,13 @@
 - Add loading, empty, and error states
 - Keep the diagram layout independent from database response formats
 
-## Stage 8: GitHub project integration
+## Stage 8: Specialized backend integrations
+
+- Add résumé or image storage only if needed
+- Add specialized tables for education classes, experience, skills, or current work if needed
+- Add relationships and richer popup-specific data only when the MVP requires them
+
+## Stage 9: GitHub project integration
 
 - Store the selected repository allowlist in Supabase
 - Fetch public GitHub repository metadata client-side at runtime
@@ -62,7 +68,7 @@
 - Render live repository updates without rebuilding the site
 - Add handling for missing repositories, rate limits, and API errors
 
-## Stage 9: Final verification
+## Stage 10: Final verification
 
 - Confirm the production build works on GitHub Pages
 - Verify Supabase and GitHub requests in the deployed site
