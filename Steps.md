@@ -17,7 +17,7 @@
 ## Stage 3: Diagram structure
 
 - Build the central profile node
-- Add Education, Experience, Projects, Now, and Resume nodes
+- Add Education, Experience, Projects, Now, Resume, and Skills nodes
 - Add the footer with contact and social links
 - Render relationships with an SVG edge layer
 - Establish a clear semantic DOM order
@@ -69,4 +69,3 @@
 - Check accessibility, focus states, and reduced-motion behavior
 - Re-test animation performance with all nodes and relationships visible
 - Remove unused placeholder data and defer non-MVP features such as the blog
-

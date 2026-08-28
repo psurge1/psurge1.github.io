@@ -13,6 +13,23 @@ export const diagramNodes: DiagramNode[] = [
   },
   {
     data: {
+      id: 'skills',
+      index: '06',
+      stereotype: 'skills',
+      title: 'Skills',
+      subtitle: 'Systems · AI/ML · Infrastructure',
+      details: {
+        sections: portfolioData.skills.map((skill) => ({
+          label: skill.category,
+          lines: [skill.items.join(' · ')],
+        })),
+      },
+    },
+    className: 'diagram-node--skills',
+    position: { x: 50, y: 90 },
+  },
+  {
+    data: {
       id: 'education',
       index: '01',
       stereotype: 'education',
@@ -74,7 +91,7 @@ export const diagramNodes: DiagramNode[] = [
       id: 'now',
       index: '04',
       stereotype: 'active',
-      title: 'Currently',
+      title: 'In Progress',
       subtitle: 'Distributed ML · GPU computing · ...',
       sections: [{ lines: ['3 active threads'] }],
       variant: 'active',
@@ -112,4 +129,5 @@ export const diagramEdges: DiagramEdge[] = [
   { id: 'profile-projects', from: 'profile', to: 'projects', route: 'horizontal' },
   { id: 'profile-resume', from: 'profile', to: 'resume', route: 'horizontal' },
   { id: 'projects-now', from: 'projects', to: 'now', route: 'vertical' },
+  { id: 'profile-skills', from: 'profile', to: 'skills', route: 'vertical' },
 ]

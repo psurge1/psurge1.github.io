@@ -328,6 +328,12 @@ a {
   min-height: clamp(24rem, 42vh, 32rem);
 }
 
+.diagram-node--skills {
+  width: min(100%, clamp(19rem, 30vw, 30rem));
+  height: clamp(6rem, 10.5vh, 8rem);
+  min-height: 0;
+}
+
 .diagram-node--education,
 .diagram-node--experience,
 .diagram-node--projects,
@@ -503,6 +509,26 @@ a {
   line-height: 1.5;
 }
 
+.diagram-node--skills .node-header {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+
+.diagram-node--skills .uml-box__body {
+  padding-top: 0.6rem;
+  padding-bottom: 0.7rem;
+}
+
+.diagram-node--skills .uml-box__title {
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+  font-size: 1rem;
+}
+
+.diagram-node--skills .uml-box__subtitle {
+  font-size: 0.72rem;
+}
+
 .diagram-node--profile.uml-box {
   background: rgb(240 225 193 / 36%);
   border-color: var(--line-strong);
@@ -527,7 +553,7 @@ a {
   max-height: 80vh;
   overflow: auto;
   border: 1px solid var(--line-strong);
-  background: rgb(234 216 184 / 88%);
+  background: rgb(234 216 184 / 96%);
   padding: 1rem 1.1rem 1.2rem;
   transform: translate(-50%, -50%);
 }

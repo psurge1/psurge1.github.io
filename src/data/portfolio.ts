@@ -24,6 +24,10 @@ export type PortfolioData = {
     technologies: string[]
     githubUrl: string
   }>
+  skills: Array<{
+    category: string
+    items: string[]
+  }>
   currentWork: Array<{
     title: string
     status: string
@@ -39,7 +43,7 @@ export const portfolioData: PortfolioData = {
     id: 'profile',
     index: '00',
     stereotype: 'profile',
-    title: 'Your Name',
+    title: 'Suraj Swamy',
     subtitle: 'Software Engineer',
     sections: [
       {
@@ -75,6 +79,11 @@ export const portfolioData: PortfolioData = {
       technologies: ['Technology', 'Framework'],
       githubUrl: 'https://github.com/your-username/your-repository',
     },
+  ],
+  skills: [
+    { category: 'systems', items: ['Distributed systems', 'AI infrastructure'] },
+    { category: 'languages', items: ['TypeScript', 'Python', 'Go'] },
+    { category: 'platforms', items: ['Cloud', 'GPU computing', 'Linux'] },
   ],
   currentWork: [
     {

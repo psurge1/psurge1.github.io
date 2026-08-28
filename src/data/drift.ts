@@ -5,6 +5,7 @@ export const DRIFT_DELAYS: Record<string, number> = {
   projects: -1.6,
   now: -5,
   resume: -3.3,
+  skills: -2.8,
 }
 
 export const ASSEMBLY_DELAYS: Record<string, number> = {
@@ -14,6 +15,7 @@ export const ASSEMBLY_DELAYS: Record<string, number> = {
   projects: 360,
   now: 460,
   resume: 400,
+  skills: 520,
 }
 
 export type DriftPattern = {
@@ -52,5 +54,10 @@ export const DRIFT_PATTERNS: Record<string, DriftPattern> = {
     first: [3, -7],
     second: [-3, -3],
     third: [-1, -8],
+  },
+  skills: {
+    first: [-2, -5],
+    second: [4, -2],
+    third: [1, -7],
   },
 }
