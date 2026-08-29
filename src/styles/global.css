@@ -337,8 +337,7 @@ a {
 .diagram-node--education,
 .diagram-node--experience,
 .diagram-node--projects,
-.diagram-node--now,
-.diagram-node--resume {
+.diagram-node--now {
   width: clamp(13rem, 18vw, 17.5rem);
   min-height: clamp(12.75rem, 19.5vh, 15.75rem);
 }

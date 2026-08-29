@@ -24,10 +24,12 @@ export function DetailPanel({ node, onClose }: DetailPanelProps) {
       </div>
 
       <h2 id="detail-panel-title">{node.data.title}</h2>
-      {node.data.subtitle && <p className="detail-panel__subtitle">{node.data.subtitle}</p>}
 
       {details?.sections.map((section, sectionIndex) => (
-        <section className="detail-panel__section" key={section.label ?? sectionIndex}>
+        <section
+          className="detail-panel__section"
+          key={`${section.label ?? 'section'}-${sectionIndex}`}
+        >
           {section.label && <p className="detail-panel__label">{section.label}</p>}
           {section.lines.map((line, lineIndex) => (
             <p key={`${sectionIndex}-${lineIndex}-${line}`}>{line}</p>

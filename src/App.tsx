@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { portfolioData } from './data/portfolio'
-import { diagramEdges, diagramNodes } from './data/diagram'
+import { createDiagramNodes, diagramEdges } from './data/diagram'
 import { DiagramCanvas } from './components/DiagramCanvas'
 import { supabase } from './utils/supabase'
+import type { ClassRecord } from './types/class'
 import './styles/global.css'
 
 type FooterLink = {
@@ -12,8 +13,10 @@ type FooterLink = {
 
 function App() {
   const [footerLinks, setFooterLinks] = useState<FooterLink[]>([])
+  const [classes, setClasses] = useState<ClassRecord[] | null>(null)
   const [driftIntensity, setDriftIntensity] = useState(0)
   const driftScale = driftIntensity / 25
+  const diagramNodes = useMemo(() => createDiagramNodes(classes), [classes])
 
   useEffect(() => {
     let isMounted = true
@@ -40,6 +43,38 @@ function App() {
     }
   }, [])
 
+  useEffect(() => {
+    let isMounted = true
+
+    const loadClasses = async () => {
+      const { data, error } = await supabase
+        .from('classes')
+        .select(
+          'id, class_abbreviation, class_name, class_type, semester, year, description, institution',
+        )
+        .order('year', { ascending: false })
+        .order('semester', { ascending: true })
+
+      if (error) {
+        console.error('Unable to load classes from Supabase:', error)
+        if (isMounted) {
+          setClasses([])
+        }
+        return
+      }
+
+      if (isMounted) {
+        setClasses(data ?? [])
+      }
+    }
+
+    void loadClasses()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
   return (
     <main className="app-shell">
       <header className="site-header">
@@ -58,21 +93,6 @@ function App() {
       </section>
 
       <footer className="site-footer">
-        <span>Footer links / Supabase</span>
-        <label className="drift-control">
-          <span className="drift-control__label">Animate</span>
-          <input
-            className="drift-control__range"
-            type="range"
-            min="0"
-            max="100"
-            step="1"
-            value={driftIntensity}
-            onChange={(event) => setDriftIntensity(Number(event.target.value))}
-            aria-label="Drift intensity"
-          />
-          <output className="drift-control__value">{driftIntensity}%</output>
-        </label>
         <nav aria-label="Social links">
           {footerLinks.map((link) => {
             const isEmail = link.link_value.startsWith('mailto:') || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(link.link_value)
@@ -92,6 +112,20 @@ function App() {
             )
           })}
         </nav>
+        <label className="drift-control">
+          <span className="drift-control__label">Animate</span>
+          <input
+            className="drift-control__range"
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+            value={driftIntensity}
+            onChange={(event) => setDriftIntensity(Number(event.target.value))}
+            aria-label="Drift intensity"
+          />
+          <output className="drift-control__value">{driftIntensity}%</output>
+        </label>
       </footer>
     </main>
   )

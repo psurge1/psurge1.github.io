@@ -45,11 +45,14 @@ export const portfolioData: PortfolioData = {
     stereotype: 'profile',
     title: 'Suraj Swamy',
     subtitle: 'Software Engineer',
-    sections: [
-      {
-        lines: ['Distributed systems · AI infrastructure'],
-      },
-    ],
+    details: {
+      sections: [
+        {
+          label: 'focus',
+          lines: ['Distributed systems · AI infrastructure'],
+        },
+      ],
+    },
   },
   education: [
     {
