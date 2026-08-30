@@ -1,6 +1,7 @@
 import { portfolioData } from './portfolio'
 import type { ClassRecord } from '../types/class'
 import type { DiagramEdge, DiagramNode } from '../types/diagram'
+import type { ExperienceRecord } from '../types/experience'
 
 const education = portfolioData.education[0]
 
@@ -83,7 +84,67 @@ function getEducationDetails(classes: ClassRecord[] | null) {
     }))
 }
 
-export function createDiagramNodes(classes: ClassRecord[] | null = null): DiagramNode[] {
+function formatExperienceDate(date: string | null) {
+  if (!date) {
+    return null
+  }
+
+  const [year, month] = date.split('-').map(Number)
+
+  if (!year || !month) {
+    return date
+  }
+
+  return new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric' }).format(
+    new Date(year, month - 1, 1),
+  )
+}
+
+function formatExperienceDateRange(experience: ExperienceRecord) {
+  const startDate = formatExperienceDate(experience.start_date)
+  const endDate = formatExperienceDate(experience.end_date) ?? (startDate ? 'Present' : null)
+
+  if (!startDate) {
+    return endDate
+  }
+
+  return `${startDate} – ${endDate}`
+}
+
+function getExperienceDetails(experiences: ExperienceRecord[] | null) {
+  if (experiences === null) {
+    return [{ label: 'experience', lines: ['Loading experience…'] }]
+  }
+
+  if (experiences.length === 0) {
+    return [{ label: 'experience', lines: ['No experience records available.'] }]
+  }
+
+  return experiences.map((experience) => ({
+    label: experience.company,
+    lines: [
+      experience.position,
+      formatExperienceDateRange(experience),
+      experience.description,
+    ].filter((line): line is string => Boolean(line)),
+  }))
+}
+
+function getExperienceSubtitle(experiences: ExperienceRecord[] | null) {
+  if (experiences === null) {
+    return 'Loading positions…'
+  }
+
+  const count = experiences.length
+  return count > 0
+    ? `${count} position${count === 1 ? '' : 's'}`
+    : 'No positions available'
+}
+
+export function createDiagramNodes(
+  classes: ClassRecord[] | null = null,
+  experiences: ExperienceRecord[] | null = null,
+): DiagramNode[] {
   return [
     {
       data: portfolioData.profile,
@@ -125,17 +186,14 @@ export function createDiagramNodes(classes: ClassRecord[] | null = null): Diagra
     },
     {
       data: {
-        id: 'experience',
-        index: '02',
-        stereotype: 'experience',
-        title: portfolioData.experience.map((item) => item.company).join(' · ') || 'Experience',
-        subtitle: `${portfolioData.experience.length} software engineering position${portfolioData.experience.length === 1 ? '' : 's'}`,
-        details: {
-          sections: portfolioData.experience.map((item) => ({
-            label: item.company,
-            lines: [item.role, item.dates, item.summary],
-          })),
-        },
+      id: 'experience',
+      index: '02',
+      stereotype: 'experience',
+      title: 'Experience',
+      subtitle: getExperienceSubtitle(experiences),
+      details: {
+        sections: getExperienceDetails(experiences),
+      },
       },
       className: 'diagram-node--experience',
       position: { x: 17, y: 24 },

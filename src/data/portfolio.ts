@@ -12,12 +12,6 @@ export type PortfolioData = {
     degree: string
     dates: string
   }>
-  experience: Array<{
-    role: string
-    company: string
-    dates: string
-    summary: string
-  }>
   projects: Array<{
     name: string
     description: string
@@ -59,20 +53,6 @@ export const portfolioData: PortfolioData = {
       institution: 'UT Austin',
       degree: 'Electrical & Computer Engineering',
       dates: '2023–2027',
-    },
-  ],
-  experience: [
-    {
-      role: 'Software Engineering',
-      company: 'HashiCorp',
-      dates: 'Position 1',
-      summary: 'Experience details will be added later.',
-    },
-    {
-      role: 'Software Engineering',
-      company: 'Vectra AI',
-      dates: 'Position 2',
-      summary: 'Experience details will be added later.',
     },
   ],
   projects: [

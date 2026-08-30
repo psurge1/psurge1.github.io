@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
-import { portfolioData } from './data/portfolio'
 import { createDiagramNodes, diagramEdges } from './data/diagram'
 import { DiagramCanvas } from './components/DiagramCanvas'
 import { supabase } from './utils/supabase'
 import type { ClassRecord } from './types/class'
+import type { ExperienceRecord } from './types/experience'
 import './styles/global.css'
 
 type FooterLink = {
@@ -14,9 +14,10 @@ type FooterLink = {
 function App() {
   const [footerLinks, setFooterLinks] = useState<FooterLink[]>([])
   const [classes, setClasses] = useState<ClassRecord[] | null>(null)
+  const [experiences, setExperiences] = useState<ExperienceRecord[] | null>(null)
   const [driftIntensity, setDriftIntensity] = useState(0)
   const driftScale = driftIntensity / 25
-  const diagramNodes = useMemo(() => createDiagramNodes(classes), [classes])
+  const diagramNodes = useMemo(() => createDiagramNodes(classes, experiences), [classes, experiences])
 
   useEffect(() => {
     let isMounted = true
@@ -37,6 +38,35 @@ function App() {
     }
 
     void loadFooterLinks()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  useEffect(() => {
+    let isMounted = true
+
+    const loadExperience = async () => {
+      const { data, error } = await supabase
+        .from('experience')
+        .select('id, company, position, start_date, end_date, description')
+        .order('start_date', { ascending: false })
+
+      if (error) {
+        console.error('Unable to load experience from Supabase:', error)
+        if (isMounted) {
+          setExperiences([])
+        }
+        return
+      }
+
+      if (isMounted) {
+        setExperiences(data ?? [])
+      }
+    }
+
+    void loadExperience()
 
     return () => {
       isMounted = false
