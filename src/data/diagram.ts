@@ -154,23 +154,6 @@ export function createDiagramNodes(
     },
     {
       data: {
-        id: 'skills',
-        index: '06',
-        stereotype: 'skills',
-        title: 'Skills',
-        subtitle: 'Systems · AI/ML · Infrastructure',
-        details: {
-          sections: portfolioData.skills.map((skill) => ({
-            label: skill.category,
-            lines: [skill.items.join(' · ')],
-          })),
-        },
-      },
-      className: 'diagram-node--skills',
-      position: { x: 50, y: 90 },
-    },
-    {
-      data: {
         id: 'education',
         index: '01',
         stereotype: 'education',
@@ -233,6 +216,25 @@ export function createDiagramNodes(
       className: 'diagram-node--now',
       position: { x: 83, y: 76 },
     },
+    {
+      data: {
+        id: 'reading',
+        index: '05',
+        stereotype: 'reading',
+        title: 'Reading',
+        subtitle: 'Books · papers · ideas',
+        details: {
+          sections: [
+            {
+              label: 'reading list',
+              lines: ['A selection of books and papers.'],
+            },
+          ],
+        },
+      },
+      className: 'diagram-node--reading',
+      position: { x: 17, y: 76 },
+    },
   ]
 }
 
@@ -243,5 +245,5 @@ export const diagramEdges: DiagramEdge[] = [
   { id: 'profile-experience', from: 'profile', to: 'experience', route: 'horizontal' },
   { id: 'profile-projects', from: 'profile', to: 'projects', route: 'horizontal' },
   { id: 'projects-now', from: 'projects', to: 'now', route: 'vertical' },
-  { id: 'profile-skills', from: 'profile', to: 'skills', route: 'vertical' },
+  { id: 'profile-reading', from: 'profile', to: 'reading', route: 'horizontal' },
 ]

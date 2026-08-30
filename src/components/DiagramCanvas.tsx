@@ -158,10 +158,21 @@ export function DiagramCanvas({ nodes, edges, driftScale }: DiagramCanvasProps) 
   }, [edges, nodes])
 
   useLayoutEffect(() => {
+    let resizeFrame = 0
+    const scheduleMeasure = () => {
+      cancelAnimationFrame(resizeFrame)
+      resizeFrame = requestAnimationFrame(measureDiagram)
+    }
+
     measureDiagram()
 
-    const observer = new ResizeObserver(measureDiagram)
+    const observer = new ResizeObserver(scheduleMeasure)
     const stage = document.querySelector<HTMLElement>('.diagram-stage')
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        scheduleMeasure()
+      }
+    }
 
     if (stage) {
       observer.observe(stage)
@@ -174,7 +185,17 @@ export function DiagramCanvas({ nodes, edges, driftScale }: DiagramCanvasProps) 
       }
     })
 
-    return () => observer.disconnect()
+    window.addEventListener('resize', scheduleMeasure)
+    window.addEventListener('focus', scheduleMeasure)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    return () => {
+      cancelAnimationFrame(resizeFrame)
+      window.removeEventListener('resize', scheduleMeasure)
+      window.removeEventListener('focus', scheduleMeasure)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      observer.disconnect()
+    }
   }, [measureDiagram, nodes])
 
   const activeNodeId = hoveredNodeId ?? focusedNodeId ?? selectedNodeId

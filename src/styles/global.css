@@ -328,16 +328,11 @@ a {
   min-height: clamp(24rem, 42vh, 32rem);
 }
 
-.diagram-node--skills {
-  width: min(100%, clamp(19rem, 30vw, 30rem));
-  height: clamp(6rem, 10.5vh, 8rem);
-  min-height: 0;
-}
-
 .diagram-node--education,
 .diagram-node--experience,
 .diagram-node--projects,
-.diagram-node--now {
+.diagram-node--now,
+.diagram-node--reading {
   width: clamp(13rem, 18vw, 17.5rem);
   min-height: clamp(12.75rem, 19.5vh, 15.75rem);
 }
@@ -506,26 +501,6 @@ a {
 .diagram-node--profile .uml-box__section-copy {
   font-size: 0.95rem;
   line-height: 1.5;
-}
-
-.diagram-node--skills .node-header {
-  padding-top: 0.4rem;
-  padding-bottom: 0.4rem;
-}
-
-.diagram-node--skills .uml-box__body {
-  padding-top: 0.6rem;
-  padding-bottom: 0.7rem;
-}
-
-.diagram-node--skills .uml-box__title {
-  margin-top: 0.2rem;
-  margin-bottom: 0.2rem;
-  font-size: 1rem;
-}
-
-.diagram-node--skills .uml-box__subtitle {
-  font-size: 0.72rem;
 }
 
 .diagram-node--profile.uml-box {

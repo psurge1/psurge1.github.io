@@ -40,6 +40,7 @@ export function EdgeLayer({ lines, width, height, highlightedEdgeIds = null }: E
 
   useLayoutEffect(() => {
     let animationFrame = 0
+    let refreshFrame = 0
 
     const updatePaths = () => {
       const stage = document.querySelector<HTMLElement>('.diagram-stage')
@@ -97,13 +98,34 @@ export function EdgeLayer({ lines, width, height, highlightedEdgeIds = null }: E
           pathRefs.current.get(line.id)?.setAttribute('d', path)
         })
       }
+    }
 
+    const scheduleRefresh = () => {
+      cancelAnimationFrame(refreshFrame)
+      refreshFrame = requestAnimationFrame(() => {
+        updatePaths()
+        refreshFrame = requestAnimationFrame(updatePaths)
+      })
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        scheduleRefresh()
+      }
     }
 
     updatePaths()
+    window.addEventListener('focus', scheduleRefresh)
+    window.addEventListener('pageshow', scheduleRefresh)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return
+      return () => {
+        cancelAnimationFrame(refreshFrame)
+        window.removeEventListener('focus', scheduleRefresh)
+        window.removeEventListener('pageshow', scheduleRefresh)
+        document.removeEventListener('visibilitychange', handleVisibilityChange)
+      }
     }
 
     const animatePaths = () => {
@@ -113,8 +135,14 @@ export function EdgeLayer({ lines, width, height, highlightedEdgeIds = null }: E
 
     animationFrame = requestAnimationFrame(animatePaths)
 
-    return () => cancelAnimationFrame(animationFrame)
-  }, [lines])
+    return () => {
+      cancelAnimationFrame(animationFrame)
+      cancelAnimationFrame(refreshFrame)
+      window.removeEventListener('focus', scheduleRefresh)
+      window.removeEventListener('pageshow', scheduleRefresh)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
+  }, [lines, highlightedEdgeIds])
 
   return (
     <svg
