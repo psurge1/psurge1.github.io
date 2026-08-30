@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 import { InlineDetails } from './components/InlineDetails'
 import { ManHeader } from './components/ManHeader'
 import { ManSection } from './components/ManSection'
@@ -6,6 +7,7 @@ import { featureFlags } from './config/features'
 import { portfolioData } from './data/portfolio'
 import type { ClassRecord } from './types/class'
 import type { ExperienceRecord } from './types/experience'
+import type { ProjectRecord } from './types/project'
 import { supabase } from './utils/supabase'
 import './styles/global.css'
 
@@ -13,8 +15,6 @@ type FooterLink = {
   link_name: string
   link_value: string
 }
-
-type Project = (typeof portfolioData.projects)[number]
 
 function formatMonthYear(date: string | null) {
   if (!date) return null
@@ -105,19 +105,71 @@ function getTransferNote(course: ClassRecord) {
   return `transfer from ${institution}`
 }
 
-function ProjectList({ projects }: { projects: Project[] }) {
+function getLanguageBreakdown(languages: ProjectRecord['languages']) {
+  const entries = Object.entries(languages ?? {}).filter(
+    ([, bytes]) => typeof bytes === 'number' && Number.isFinite(bytes) && bytes > 0,
+  )
+  const totalBytes = entries.reduce((total, [, bytes]) => total + bytes, 0)
+
+  if (totalBytes === 0) {
+    return []
+  }
+
+  return entries
+    .sort(([, firstBytes], [, secondBytes]) => secondBytes - firstBytes)
+    .map(([language, bytes]) => `${language} ${Math.round((bytes / totalBytes) * 100)}%`)
+}
+
+function getGithubPagesUrl(project: ProjectRecord) {
+  const demoUrl = project.demo_url?.trim()
+
+  if (demoUrl) {
+    return demoUrl
+  }
+
+  if (!project.has_pages) {
+    return null
+  }
+
+  const owner = project.github_owner.trim()
+  const repository = project.github_repo.trim()
+
+  if (repository.toLowerCase() === `${owner}.github.io`.toLowerCase()) {
+    return `https://${owner}.github.io/`
+  }
+
+  return `https://${owner}.github.io/${repository}/`
+}
+
+function ProjectList({ projects }: { projects: ProjectRecord[] }) {
   return (
     <ol className="man-entry-list">
-      {projects.map((project) => (
-        <li key={project.name} className="man-entry">
-          <h3>{project.name}</h3>
-          <p>{project.description}</p>
-          <p className="man-entry__meta">{project.technologies.join(' · ')}</p>
-          <a href={project.githubUrl} target="_blank" rel="noreferrer">
-            github ↗
-          </a>
-        </li>
-      ))}
+      {projects.map((project) => {
+        const languageBreakdown = getLanguageBreakdown(project.languages)
+        const liveUrl = getGithubPagesUrl(project)
+
+        return (
+          <li key={project.id} className="man-entry">
+            <h3>{project.github_repo}</h3>
+            {project.description && <p>{project.description}</p>}
+            {languageBreakdown.length > 0 && (
+              <p className="man-entry__meta">{languageBreakdown.join(' · ')}</p>
+            )}
+            <div className="project-links">
+              {project.github_url && (
+                <a href={project.github_url} target="_blank" rel="noreferrer">
+                  github ↗
+                </a>
+              )}
+              {project.display_demo && liveUrl && (
+                <a href={liveUrl} target="_blank" rel="noreferrer">
+                  live/demo ↗
+                </a>
+              )}
+            </div>
+          </li>
+        )
+      })}
     </ol>
   )
 }
@@ -126,11 +178,11 @@ function App() {
   const [footerLinks, setFooterLinks] = useState<FooterLink[]>([])
   const [classes, setClasses] = useState<ClassRecord[] | null>(null)
   const [experiences, setExperiences] = useState<ExperienceRecord[] | null>(null)
-  const { profile, education, projects } = portfolioData
+  const [projectRecords, setProjectRecords] = useState<ProjectRecord[] | null>(null)
+  const { profile, education } = portfolioData
   const currentEducation = education[0]
   const courseGroups = classes ? groupCourses(classes) : []
-  const featuredProjects = projects.slice(0, 3)
-  const additionalProjects = projects.slice(3)
+  const projectsWithReadmes = projectRecords?.filter((project) => project.readme?.trim()) ?? []
 
   useEffect(() => {
     let isMounted = true
@@ -147,6 +199,34 @@ function App() {
     }
 
     void loadFooterLinks()
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  useEffect(() => {
+    let isMounted = true
+
+    const loadProjects = async () => {
+      const { data, error } = await supabase
+        .from('projects')
+        .select(
+          'id, github_repo_id, github_owner, github_repo, display_order, is_visible, readme, languages, description, github_url, demo_url, fork, has_pages, primary_language, stars, forks, topics, pushed_at, display_demo',
+        )
+        .eq('is_visible', true)
+        .eq('fork', false)
+        .order('display_order', { ascending: true })
+
+      if (error) {
+        console.error('Unable to load projects from Supabase:', error)
+        if (isMounted) setProjectRecords([])
+        return
+      }
+
+      if (isMounted) setProjectRecords(data ?? [])
+    }
+
+    void loadProjects()
     return () => {
       isMounted = false
     }
@@ -234,19 +314,23 @@ function App() {
         </ManSection>
 
         <ManSection title="Projects">
-          <ProjectList projects={featuredProjects} />
-          <InlineDetails
-            className="inline-details--project-list"
-            label="Projects"
-            showLabel="show more"
-            hideLabel="show less"
-          >
-            {additionalProjects.length > 0 ? (
-              <ProjectList projects={additionalProjects} />
-            ) : (
-              <p className="man-status">No additional projects are listed yet.</p>
-            )}
-          </InlineDetails>
+          {projectRecords === null && <p className="man-status">Loading projects…</p>}
+          {projectRecords?.length === 0 && <p className="man-status">No projects are listed.</p>}
+          {projectRecords && projectRecords.length > 0 && (
+            <>
+              <ProjectList projects={projectRecords} />
+              {projectsWithReadmes.length > 0 && (
+                <div className="project-readmes">
+                  {projectsWithReadmes.map((project) => (
+                    <article key={project.id} className="project-readme">
+                      <h3>{project.github_repo}</h3>
+                      <ReactMarkdown>{project.readme ?? ''}</ReactMarkdown>
+                    </article>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
         </ManSection>
 
         <ManSection title="Education">
