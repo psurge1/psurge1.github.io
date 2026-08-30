@@ -1,4 +1,4 @@
-# Personal Portfolio Website — Refined Plan
+# Personal Portfolio Website - Refined Plan
 
 ## 1. Product direction
 
@@ -155,7 +155,7 @@ Avoid a generic standalone skills list. Technologies should be connected to the 
 ```text
                        [ Go ]
                           |
-[ Redis ] — [ Chess Platform ] — [ gRPC ]
+[ Redis ] - [ Chess Platform ] - [ gRPC ]
                           |
                     [ PostgreSQL ]
 ```

@@ -8,13 +8,13 @@ It should feel technical and unique, but **not like a literal draw.io UML export
 
 ## Information to Show
 
-- **Name / identity** — central/root element
+- **Name / identity** - central/root element
 - **Education**
 - **Work experience**
-- **Projects** — selected repositories populated from GitHub
-- **Currently working on** — active projects, learning, experiments, etc.
+- **Projects** - selected repositories populated from GitHub
+- **Currently working on** - active projects, learning, experiments, etc.
 - **Resume**
-- **Contact/socials** — email, GitHub, LinkedIn, Twitter/X, etc.
+- **Contact/socials** - email, GitHub, LinkedIn, Twitter/X, etc.
 - **Skills/technologies**
 
 ## Diagram Structure
@@ -123,7 +123,7 @@ Avoid:
 
 ## UX Principle
 
-The graph should be **useful, not just decorative**. Relationships should communicate information—for example, which technologies were used in which projects or jobs.
+The graph should be **useful, not just decorative**. Relationships should communicate information - for example, which technologies were used in which projects or jobs.
 
 Despite the unusual presentation, a recruiter should be able to immediately find:
 

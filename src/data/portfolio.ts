@@ -1,12 +1,9 @@
-import type { UmlBoxData } from '../types/uml'
-
-export type SocialLink = {
-  label: string
-  url: string
-}
-
 export type PortfolioData = {
-  profile: UmlBoxData
+  profile: {
+    name: string
+    identity: string
+    description: string
+  }
   education: Array<{
     institution: string
     degree: string
@@ -18,41 +15,20 @@ export type PortfolioData = {
     technologies: string[]
     githubUrl: string
   }>
-  skills: Array<{
-    category: string
-    items: string[]
-  }>
-  currentWork: Array<{
-    title: string
-    status: string
-    focus: string
-  }>
-  resumeUrl: string
-  socials: SocialLink[]
 }
 
-// Placeholder content for the frontend scaffold. This will be replaced by Supabase data later.
+// Static content that does not currently come from Supabase.
 export const portfolioData: PortfolioData = {
   profile: {
-    id: 'profile',
-    index: '00',
-    stereotype: 'profile',
-    title: 'Suraj Swamy',
-    subtitle: 'Software Engineer',
-    details: {
-      sections: [
-        {
-          label: 'focus',
-          lines: ['Distributed systems · AI infrastructure'],
-        },
-      ],
-    },
+    name: 'Suraj Swamy',
+    identity: 'Software Engineer',
+    description: "Hello! I’m Suraj Swamy. I’m studying Electrical and Computer Engineering at UT Austin. I am passionate about distributed systems, programming for performance, and ML systems. My favorite programming language is Go.\n\nI enjoy playing chess, watching football (nfl and cfb), and playing Apex Legends (I main Fuse) and EA College Football.\n\nI'm currently learning vim + tmux, and building my own distributed ML framework with support for arm CPUs, CUDA, and Metal",
   },
   education: [
     {
       institution: 'UT Austin',
       degree: 'Electrical & Computer Engineering',
-      dates: '2023–2027',
+      dates: '2023 to 2027',
     },
   ],
   projects: [
@@ -62,24 +38,5 @@ export const portfolioData: PortfolioData = {
       technologies: ['Technology', 'Framework'],
       githubUrl: 'https://github.com/your-username/your-repository',
     },
-  ],
-  skills: [
-    { category: 'systems', items: ['Distributed systems', 'AI infrastructure'] },
-    { category: 'languages', items: ['TypeScript', 'Python', 'Go'] },
-    { category: 'platforms', items: ['Cloud', 'GPU computing', 'Linux'] },
-  ],
-  currentWork: [
-    {
-      title: 'Current Project',
-      status: 'In progress',
-      focus: 'Current focus or area of learning',
-    },
-  ],
-  resumeUrl: '#',
-  socials: [
-    { label: 'Email', url: 'mailto:you@example.com' },
-    { label: 'LinkedIn', url: 'https://www.linkedin.com/' },
-    { label: 'GitHub', url: 'https://github.com/' },
-    { label: 'Twitter/X', url: 'https://x.com/' },
   ],
 }
