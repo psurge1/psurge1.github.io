@@ -117,7 +117,10 @@ function getLanguageBreakdown(languages: ProjectRecord['languages']) {
 
   return entries
     .sort(([, firstBytes], [, secondBytes]) => secondBytes - firstBytes)
-    .map(([language, bytes]) => `${language} ${Math.round((bytes / totalBytes) * 100)}%`)
+    .map(([language, bytes]) => ({
+      language,
+      percentage: Math.round((bytes / totalBytes) * 100),
+    }))
 }
 
 function getGithubPagesUrl(project: ProjectRecord) {
@@ -147,14 +150,23 @@ function ProjectList({ projects }: { projects: ProjectRecord[] }) {
       {projects.map((project) => {
         const languageBreakdown = getLanguageBreakdown(project.languages)
         const liveUrl = getGithubPagesUrl(project)
+        const topics = project.topics?.filter((topic) => topic.trim()) ?? []
 
         return (
           <li key={project.id} className="man-entry">
             <h3>{project.github_repo}</h3>
-            {project.description && <p>{project.description}</p>}
+            {project.description && <p className="project-description">{project.description}</p>}
             {languageBreakdown.length > 0 && (
-              <p className="man-entry__meta">{languageBreakdown.join(' · ')}</p>
+              <p className="project-languages">
+                {languageBreakdown.map(({ language, percentage }, index) => (
+                  <span key={language}>
+                    {index > 0 && ' · '}
+                    {language} <span className="project-language__percentage">{percentage}%</span>
+                  </span>
+                ))}
+              </p>
             )}
+            {topics.length > 0 && <p className="project-topics">{topics.join(' · ')}</p>}
             <div className="project-links">
               {project.github_url && (
                 <a href={project.github_url} target="_blank" rel="noreferrer">

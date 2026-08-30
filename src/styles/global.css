@@ -6,6 +6,8 @@
   --text-muted: #a8a39a;
   --line: #3a3b35;
   --accent: #d4a86b;
+  --metadata: #8faaa2;
+  --percentage: #b4a0c6;
   --focus: #f2c986;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 
@@ -209,6 +211,28 @@ a:focus-visible {
   display: flex;
   flex-wrap: wrap;
   gap: 0.2rem 0.9rem;
+}
+
+.project-description {
+  color: var(--text-muted) !important;
+}
+
+.project-languages,
+.project-topics {
+  margin-top: 0.15rem !important;
+  font-size: 0.74rem !important;
+}
+
+.project-languages {
+  color: var(--metadata) !important;
+}
+
+.project-language__percentage {
+  color: var(--percentage);
+}
+
+.project-topics {
+  color: var(--accent) !important;
 }
 
 .project-readmes {
