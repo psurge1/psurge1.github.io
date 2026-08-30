@@ -149,13 +149,17 @@ a:focus-visible {
 
 .man-entry__role {
   margin-top: 0.2rem !important;
-  color: var(--text) !important;
+  color: var(--accent) !important;
   font-size: 0.84rem !important;
 }
 
 .man-entry__meta {
   margin-top: 0.15rem !important;
   font-size: 0.74rem !important;
+}
+
+.experience-date {
+  color: var(--percentage) !important;
 }
 
 .man-entry p:not(.man-entry__role):not(.man-entry__meta) {
@@ -366,6 +370,14 @@ a:focus-visible {
 
 .man-links a {
   font-size: 0.9rem;
+}
+
+.profile-links {
+  margin-top: 0.7rem;
+}
+
+.profile-links a {
+  font-size: 0.82rem;
 }
 
 .man-footer {

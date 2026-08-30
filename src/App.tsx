@@ -298,6 +298,23 @@ function App() {
       <article className="man-page">
         <ManSection title={profile.name}>
           <p className="man-description">{profile.description}</p>
+          <nav className="man-links profile-links" aria-label="Contact and social links">
+            {footerLinks.map((link) => {
+              const href = getLinkHref(link.link_value)
+
+              return (
+                <a
+                  key={`${link.link_name}-${link.link_value}`}
+                  href={href}
+                  target={isExternalLink(href) ? '_blank' : undefined}
+                  rel={isExternalLink(href) ? 'noreferrer' : undefined}
+                  aria-label={link.link_name}
+                >
+                  {link.link_name}
+                </a>
+              )
+            })}
+          </nav>
         </ManSection>
 
         <ManSection title="Experience">
@@ -312,7 +329,7 @@ function App() {
                   <li key={experience.id} className="man-entry">
                     <h3>{experience.company}</h3>
                     {experience.position && <p className="man-entry__role">{experience.position}</p>}
-                    {dateRange && <p className="man-entry__meta">{dateRange}</p>}
+                    {dateRange && <p className="man-entry__meta experience-date">{dateRange}</p>}
                     {featureFlags.experienceDetails && (
                       <InlineDetails label={`${experience.company} position`}>
                         <p>{experience.description ?? 'No additional position details are listed.'}</p>
@@ -322,26 +339,6 @@ function App() {
                 )
               })}
             </ol>
-          )}
-        </ManSection>
-
-        <ManSection title="Projects">
-          {projectRecords === null && <p className="man-status">Loading projects…</p>}
-          {projectRecords?.length === 0 && <p className="man-status">No projects are listed.</p>}
-          {projectRecords && projectRecords.length > 0 && (
-            <>
-              <ProjectList projects={projectRecords} />
-              {projectsWithReadmes.length > 0 && (
-                <div className="project-readmes">
-                  {projectsWithReadmes.map((project) => (
-                    <article key={project.id} className="project-readme">
-                      <h3>{project.github_repo}</h3>
-                      <ReactMarkdown>{project.readme ?? ''}</ReactMarkdown>
-                    </article>
-                  ))}
-                </div>
-              )}
-            </>
           )}
         </ManSection>
 
@@ -368,7 +365,7 @@ function App() {
                           <li key={course.id}>
                             <span>
                               <strong>{course.class_abbreviation}</strong>
-                              {course.class_name && ` - ${course.class_name}`}
+                              {course.class_name && ` ${course.class_name}`}
                               {transferNote && (
                                 <em>{transferNote === 'Credit by Exam' ? ` ${transferNote}` : ` (${transferNote})`}</em>
                               )}
@@ -385,25 +382,26 @@ function App() {
           </InlineDetails>
         </ManSection>
 
-        <ManSection title="See also">
-          <nav className="man-links" aria-label="Contact and social links">
-            {footerLinks.map((link) => {
-              const href = getLinkHref(link.link_value)
-
-              return (
-                <a
-                  key={`${link.link_name}-${link.link_value}`}
-                  href={href}
-                  target={isExternalLink(href) ? '_blank' : undefined}
-                  rel={isExternalLink(href) ? 'noreferrer' : undefined}
-                  aria-label={link.link_name}
-                >
-                  {link.link_name}
-                </a>
-              )
-            })}
-          </nav>
+        <ManSection title="Projects">
+          {projectRecords === null && <p className="man-status">Loading projects…</p>}
+          {projectRecords?.length === 0 && <p className="man-status">No projects are listed.</p>}
+          {projectRecords && projectRecords.length > 0 && (
+            <>
+              <ProjectList projects={projectRecords} />
+              {projectsWithReadmes.length > 0 && (
+                <div className="project-readmes">
+                  {projectsWithReadmes.map((project) => (
+                    <article key={project.id} className="project-readme">
+                      <h3>{project.github_repo}</h3>
+                      <ReactMarkdown>{project.readme ?? ''}</ReactMarkdown>
+                    </article>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
         </ManSection>
+
       </article>
 
       <footer className="man-footer" aria-label="End of portfolio">
