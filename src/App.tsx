@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { InlineDetails } from './components/InlineDetails'
 import { ManHeader } from './components/ManHeader'
 import { ManSection } from './components/ManSection'
+import { featureFlags } from './config/features'
 import { portfolioData } from './data/portfolio'
 import type { ClassRecord } from './types/class'
 import type { ExperienceRecord } from './types/experience'
@@ -220,9 +221,11 @@ function App() {
                     <h3>{experience.company}</h3>
                     {experience.position && <p className="man-entry__role">{experience.position}</p>}
                     {dateRange && <p className="man-entry__meta">{dateRange}</p>}
-                    <InlineDetails label={`${experience.company} position`}>
-                      <p>{experience.description ?? 'No additional position details are listed.'}</p>
-                    </InlineDetails>
+                    {featureFlags.experienceDetails && (
+                      <InlineDetails label={`${experience.company} position`}>
+                        <p>{experience.description ?? 'No additional position details are listed.'}</p>
+                      </InlineDetails>
+                    )}
                   </li>
                 )
               })}

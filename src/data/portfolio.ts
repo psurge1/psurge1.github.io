@@ -22,7 +22,7 @@ export const portfolioData: PortfolioData = {
   profile: {
     name: 'Suraj Swamy',
     identity: 'Software Engineer',
-    description: "Hello! I’m Suraj Swamy. I’m studying Electrical and Computer Engineering at UT Austin. I am passionate about distributed systems, programming for performance, and ML systems. My favorite programming language is Go.\n\nI enjoy playing chess, watching football (nfl and cfb), and playing Apex Legends (I main Fuse) and EA College Football.\n\nI'm currently learning vim + tmux, and building my own distributed ML framework with support for arm CPUs, CUDA, and Metal",
+    description: "Hello! I’m Suraj Swamy. I’m studying Electrical and Computer Engineering at UT Austin. I am passionate about distributed systems, programming for performance, and ML systems. My favorite programming language is Go.\n\nI enjoy playing chess, watching football (nfl and cfb), and playing Apex Legends (I main Fuse) and EA College Football.\n\nI'm currently learning vim + tmux, and building my own distributed ML framework with support for CPUs, CUDA, and Metal",
   },
   education: [
     {
