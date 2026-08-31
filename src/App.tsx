@@ -366,9 +366,7 @@ function App() {
                             <span>
                               <strong>{course.class_abbreviation}</strong>
                               {course.class_name && ` ${course.class_name}`}
-                              {transferNote && (
-                                <em>{transferNote === 'Credit by Exam' ? ` ${transferNote}` : ` (${transferNote})`}</em>
-                              )}
+                              {transferNote && <em>{` (${transferNote})`}</em>}
                             </span>
                             {course.description && <p>{course.description}</p>}
                           </li>
