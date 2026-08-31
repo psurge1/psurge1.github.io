@@ -159,7 +159,7 @@ a:focus-visible {
 }
 
 .experience-date {
-  color: var(--percentage) !important;
+  color: var(--text-muted) !important;
 }
 
 .man-entry p:not(.man-entry__role):not(.man-entry__meta) {
